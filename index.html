@@ -3,7 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>המרכז הרנדומלי - הפתעות בקליק</title>
+    <title>Random Things - המרכז הרנדומלי</title>
+    <meta name="description" content="עובדות, משימות, דילמות, חידות וציטוטים - הפתעות בקליק">
+    <meta name="theme-color" content="#6d28d9">
+
+    <!-- אייקונים -->
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+
+    <!-- התקנה כאפליקציה (PWA) -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Random Things">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- תצוגה בשיתוף (וואטסאפ, פייסבוק, טלגרם, גוגל ועוד) -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Random Things">
+    <meta property="og:title" content="Random Things - המרכז הרנדומלי">
+    <meta property="og:description" content="עובדות, משימות, דילמות, חידות וציטוטים - הפתעות בקליק">
+    <meta property="og:url" content="https://yanai-lez.github.io/Random-things/">
+    <meta property="og:image" content="https://yanai-lez.github.io/Random-things/icons/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="he_IL">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Random Things - המרכז הרנדומלי">
+    <meta name="twitter:description" content="עובדות, משימות, דילמות, חידות וציטוטים - הפתעות בקליק">
+    <meta name="twitter:image" content="https://yanai-lez.github.io/Random-things/icons/og-image.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -768,6 +797,13 @@
             toastTimer = setTimeout(() => {
                 toast.classList.add('opacity-0', 'translate-y-4');
             }, 2200);
+        }
+
+        // רישום Service Worker - מאפשר התקנה ועבודה גם בלי אינטרנט
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js').catch(() => {});
+            });
         }
 
         // אתחול בטעינת העמוד
