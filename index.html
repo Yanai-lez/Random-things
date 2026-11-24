@@ -34,7 +34,7 @@
             border-radius: 9999px;
         }
         .dilemma-option { transition: all 0.2s ease; }
-        .dilemma-option:not(:disabled):hover { border-color: #f43f5e; background-color: #fff1f2; transform: translateY(-2px); }
+        @media (hover: hover) and (pointer: fine) { .dilemma-option:not(:disabled):hover { border-color: #f43f5e; background-color: #fff1f2; transform: translateY(-2px); } }
         .dilemma-option:not(:disabled):active { transform: scale(0.97); }
         .dilemma-option.chosen { background-color: #f43f5e; border-color: #f43f5e; color: #ffffff; transform: scale(1.03); box-shadow: 0 8px 20px -6px rgba(244, 63, 94, 0.5); }
         .dilemma-option.faded { opacity: 0.35; }
@@ -654,6 +654,7 @@
             const elB = document.getElementById('dilemma-b');
             [elA, elB].forEach(el => {
                 el.classList.remove('chosen', 'faded');
+                el.blur();
                 el.disabled = false;
             });
             elA.textContent = item.a;
@@ -666,6 +667,7 @@
             if (dilemmaLocked) return;
             dilemmaLocked = true;
             const chosen = document.getElementById('dilemma-' + side);
+            chosen.blur();
             const other = document.getElementById('dilemma-' + (side === 'a' ? 'b' : 'a'));
             chosen.classList.add('chosen');
             other.classList.add('faded');
