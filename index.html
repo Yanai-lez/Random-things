@@ -25,27 +25,19 @@
             transform: translateY(-4px);
             box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.08);
         }
-        .dilemma-option {
-            transition: all 0.2s ease;
+        /* פס גלילה עדין בתוך כרטיסים */
+        .custom-scroll::-webkit-scrollbar {
+            width: 5px;
         }
-        .dilemma-option:not(:disabled):hover {
-            border-color: #f43f5e;
-            background-color: #fff1f2;
-            transform: translateY(-2px);
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 9999px;
         }
-        .dilemma-option:not(:disabled):active {
-            transform: scale(0.97);
-        }
-        .dilemma-option.chosen {
-            background-color: #f43f5e;
-            border-color: #f43f5e;
-            color: #ffffff;
-            transform: scale(1.03);
-            box-shadow: 0 8px 20px -6px rgba(244, 63, 94, 0.5);
-        }
-        .dilemma-option.faded {
-            opacity: 0.35;
-        }
+        .dilemma-option { transition: all 0.2s ease; }
+        .dilemma-option:not(:disabled):hover { border-color: #f43f5e; background-color: #fff1f2; transform: translateY(-2px); }
+        .dilemma-option:not(:disabled):active { transform: scale(0.97); }
+        .dilemma-option.chosen { background-color: #f43f5e; border-color: #f43f5e; color: #ffffff; transform: scale(1.03); box-shadow: 0 8px 20px -6px rgba(244, 63, 94, 0.5); }
+        .dilemma-option.faded { opacity: 0.35; }
     </style>
 </head>
 <body class="text-slate-800 antialiased min-h-screen flex flex-col">
@@ -82,7 +74,9 @@
                     <div class="flex items-center justify-between mb-4">
                         <div class="flex items-center gap-2.5">
                             <span class="w-10 h-10 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-xl">💡</span>
-                            <h2 class="text-lg font-bold text-slate-800 leading-tight">הידעת?</h2>
+                            <div>
+                                <h2 class="text-lg font-bold text-slate-800 leading-tight">הידעת?</h2>
+                            </div>
                         </div>
                         <button onclick="copyText('fact-text')" title="העתק עובדה" class="p-2 text-slate-400 hover:text-amber-600 hover:bg-amber-50 rounded-xl transition-colors cursor-pointer">
                             📋
@@ -103,7 +97,9 @@
                     <div class="flex items-center justify-between mb-4">
                         <div class="flex items-center gap-2.5">
                             <span class="w-10 h-10 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl">🚀</span>
-                            <h2 class="text-lg font-bold text-slate-800 leading-tight">מה עושים עכשיו?</h2>
+                            <div>
+                                <h2 class="text-lg font-bold text-slate-800 leading-tight">מה עושים עכשיו?</h2>
+                            </div>
                         </div>
                         <button onclick="copyText('activity-text')" title="העתק משימה" class="p-2 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-xl transition-colors cursor-pointer">
                             📋
@@ -119,22 +115,24 @@
                 </button>
             </section>
 
-            <!-- 3. מה עדיף? (אפשרויות לחיצות) -->
+            <!-- 3. מה עדיף? -->
             <section class="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 card-hover flex flex-col justify-between">
                 <div>
                     <div class="flex items-center justify-between mb-4">
                         <div class="flex items-center gap-2.5">
                             <span class="w-10 h-10 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center text-xl">⚖️</span>
-                            <h2 class="text-lg font-bold text-slate-800 leading-tight">מה עדיף?</h2>
+                            <div>
+                                <h2 class="text-lg font-bold text-slate-800 leading-tight">מה עדיף?</h2>
+                            </div>
                         </div>
                         <button onclick="copyDilemma()" title="העתק דילמה" class="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors cursor-pointer">
                             📋
                         </button>
                     </div>
                     <div class="bg-rose-50/70 border border-rose-100 rounded-2xl p-4 min-h-[155px] flex flex-col justify-center gap-2.5">
-                        <button id="dilemma-a" onclick="chooseDilemma('a')" class="dilemma-option bg-white border-2 border-rose-200 rounded-xl p-3 text-center text-sm font-semibold text-slate-700 shadow-sm cursor-pointer"></button>
+                        <button id="dilemma-a" onclick="chooseDilemma('a')" class="dilemma-option w-full bg-white border-2 border-rose-200 rounded-xl p-3 text-center text-sm font-semibold text-slate-700 shadow-sm cursor-pointer"></button>
                         <div class="text-center text-xs font-extrabold text-rose-500">או</div>
-                        <button id="dilemma-b" onclick="chooseDilemma('b')" class="dilemma-option bg-white border-2 border-rose-200 rounded-xl p-3 text-center text-sm font-semibold text-slate-700 shadow-sm cursor-pointer"></button>
+                        <button id="dilemma-b" onclick="chooseDilemma('b')" class="dilemma-option w-full bg-white border-2 border-rose-200 rounded-xl p-3 text-center text-sm font-semibold text-slate-700 shadow-sm cursor-pointer"></button>
                     </div>
                 </div>
                 <button onclick="generateDilemma()" class="mt-5 w-full bg-rose-500 hover:bg-rose-600 active:scale-95 text-white font-semibold py-3 px-4 rounded-xl transition-all shadow-sm cursor-pointer">
@@ -148,7 +146,9 @@
                     <div class="flex items-center justify-between mb-4">
                         <div class="flex items-center gap-2.5">
                             <span class="w-10 h-10 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center text-xl">💬</span>
-                            <h2 class="text-lg font-bold text-slate-800 leading-tight">משפט השראה</h2>
+                            <div>
+                                <h2 class="text-lg font-bold text-slate-800 leading-tight">משפט השראה</h2>
+                            </div>
                         </div>
                         <button onclick="copyQuote()" title="העתק ציטוט" class="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-xl transition-colors cursor-pointer">
                             📋
@@ -170,7 +170,9 @@
                     <div class="flex items-center justify-between mb-4">
                         <div class="flex items-center gap-2.5">
                             <span class="w-10 h-10 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center text-xl">🧩</span>
-                            <h2 class="text-lg font-bold text-slate-800 leading-tight">חידה מהירה</h2>
+                            <div>
+                                <h2 class="text-lg font-bold text-slate-800 leading-tight">חידה מהירה</h2>
+                            </div>
                         </div>
                         <button onclick="toggleRiddleAnswer()" class="text-xs font-bold text-purple-600 bg-purple-50 hover:bg-purple-100 px-3 py-1.5 rounded-xl transition-colors cursor-pointer">
                             גלה תשובה 👁️
@@ -188,13 +190,15 @@
                 </button>
             </section>
 
-            <!-- 6. שאלה לשיחה -->
+            <!-- 6. שאלה שוברת קרח -->
             <section class="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 card-hover flex flex-col justify-between">
                 <div>
                     <div class="flex items-center justify-between mb-4">
                         <div class="flex items-center gap-2.5">
                             <span class="w-10 h-10 rounded-2xl bg-cyan-100 text-cyan-600 flex items-center justify-center text-xl">🗣️</span>
-                            <h2 class="text-lg font-bold text-slate-800 leading-tight">שאלה לשיחה</h2>
+                            <div>
+                                <h2 class="text-lg font-bold text-slate-800 leading-tight">שאלה לשיחה</h2>
+                            </div>
                         </div>
                         <button onclick="copyText('icebreaker-text')" title="העתק שאלה" class="p-2 text-slate-400 hover:text-cyan-600 hover:bg-cyan-50 rounded-xl transition-colors cursor-pointer">
                             📋
@@ -316,4 +320,464 @@
             "לפני המצאת המחק, השתמשו בפירורי לחם כדי למחוק עופרת.",
             "בעולם קיימים יותר מ-7,500 זנים שונים של תפוחים.",
             "הלשון של זיקית יכולה להאיץ מ-0 ל-100 קמ\"ש בפחות ממאית השנייה.",
-            "בכל שנה נולדים כוכבים חדשים 
+            "בכל שנה נולדים כוכבים חדשים ביקום בקצב של מאות מיליונים.",
+            "חולדות צוחקות כשמדגדגים אותן, אבל בתדר גבוה שבני אדם לא שומעים.",
+            "הפסל 'חירות' בניו יורק היה במקור בצבע נחושת מבריק לפני שהתחמצן לירוק.",
+            "ב-1977 נקלט אות רדיו מסתורי מהחלל שנמשך 72 שניות וכונה 'אות ה-Wow!'.",
+            "קוביות משחק עתיקות נמצאו בחפירות ארכיאולוגיות בנות 5,000 שנה.",
+            "האור מהשמש לוקח כ-8 דקות ו-20 שניות להגיע לכדור הארץ.",
+            "לפני המצאת השעון המעורר, היו אנשים שהתפרנסו מלדפוק על חלונות כדי להעיר עובדים.",
+            "במוח האנושי יש כ-86 מיליארד תאי עצב (נוירונים).",
+            "גלידה הומצאה בסין העתיקה על ידי ערבוב שלג עם חלב ואורז.",
+            "העיטם לבן-הראש יכול לראות ארנבת ממרחק של כמעט 5 קילומטרים."
+        ];
+
+        // --- 2. מאגר "מה עושים עכשיו?" ---
+        const activities = [
+            { emoji: "💧", text: "קום עכשיו ושתה כוס מים קרים ומרעננים." },
+            { emoji: "🧘", text: "קח 60 שניות לעצום עיניים ולנשום עמוק 5 פעמים." },
+            { emoji: "📱", text: "שלח הודעת 'מה נשמע?' לחבר שלא דיברת איתו המון זמן." },
+            { emoji: "🧹", text: "סדר 3 חפצים שנמצאים כרגע על השולחן שלך." },
+            { emoji: "🎵", text: "שים שיר אהוב מהילדות ותגביר קצת את הווליום." },
+            { emoji: "🤸", text: "עמוד ותעשה מתיחה טובה לידיים, לגב ולצוואר למשך חצי דקה." },
+            { emoji: "📝", text: "רשום על פתק 3 דברים טובים שקרו לך השבוע." },
+            { emoji: "🎨", text: "צייר שרבוט מהיר של חיה מצחיקה ב-30 שניות." },
+            { emoji: "🪟", text: "פתח חלון, תן לאוויר צח להיכנס והסתכל החוצה דקה." },
+            { emoji: "📚", text: "קרא ערך אקראי בוויקיפדיה על נושא שמעולם לא חקרת." },
+            { emoji: "📸", text: "פתח את הגלריה בטלפון ומחק 10 צילומי מסך מיותרים." },
+            { emoji: "💪", text: "עשה 10 כפיפות בטן או 10 סקוואטים ממש עכשיו!" },
+            { emoji: "🍎", text: "אכול פרי או חטיף בריא כדי להטעין אנרגיה." },
+            { emoji: "🧠", text: "נסה לכתוב את השם שלך ביד החלשה שלך." },
+            { emoji: "💌", text: "כתוב הודעת פרגון קצרה למישהו מהמשפחה." },
+            { emoji: "🌍", text: "פתח מפת עולם, עצום עיניים, הצבע על נקודה ובדוק איזו מדינה זו." },
+            { emoji: "☕", text: "הכן לעצמך משקה חם או קר מפנק." },
+            { emoji: "🗂️", text: "נקה את שולחן העבודה במחשב או סדר אפליקציות בטלפון." },
+            { emoji: "🤫", text: "הנח את הטלפון בצד ל-10 דקות של שקט מוחלט." },
+            { emoji: "🎯", text: "בחר משימה אחת קטנה שדחית השבוע וסיים אותה תוך 5 דקות." },
+            { emoji: "😂", text: "חפש סרטון מצחיק של חיות וצחק בקול רם." },
+            { emoji: "👟", text: "צא להליכה קצרה של 5 דקות מסביב לבית או לבניין." },
+            { emoji: "🌱", text: "בדוק אם העציצים בבית צריכים השקיה." },
+            { emoji: "🎭", text: "נסה לעמוד על רגל אחת בעיניים עצומות למשך 20 שניות." },
+            { emoji: "✨", text: "חייך חיוך גדול למשך 15 שניות – זה משפר את מצב הרוח אוטומטית." },
+            { emoji: "📖", text: "קרא 3 עמודים מספר שנמצא לידך." },
+            { emoji: "🎧", text: "האזן לשיר שלם בעיניים עצומות ונסה לזהות כל כלי נגינה." },
+            { emoji: "📧", text: "מחק 15 מיילים פרסומיים מתיבת הדואר הנכנס." },
+            { emoji: "🧊", text: "שטוף פנים במים קרים כדי להתרענן מיד." },
+            { emoji: "🧩", text: "פתור סודוקו קל או תשבץ קצר ברשת." },
+            { emoji: "🗣️", text: "למד להגיד 'שלום' ו'תודה' בשפה חדשה לגמרי." },
+            { emoji: "🛏️", text: "סדר את הכרית והשמיכה במיטה שלך." },
+            { emoji: "💡", text: "כתוב רעיון אחד משוגע להמצאה חדשה." },
+            { emoji: "🧦", text: "זרוק לכביסה בגדים שמונחים בחדר." },
+            { emoji: "🎬", text: "הוסף סרט או סדרה מומלצת לרשימת הצפייה שלך." },
+            { emoji: "🙏", text: "חשוב על אדם אחד שאתה מודה לו היום." },
+            { emoji: "🖐️", text: "עשה עיסוי קל לכפות הידיים ולאצבעות." },
+            { emoji: "📷", text: "צלם תמונה אמנותית של חפץ יומיומי שנמצא לידך." },
+            { emoji: "🎶", text: "זמזם מנגינה שאתה אוהב בלי מילים." },
+            { emoji: "📅", text: "בדוק את היומן שלך למחר והתכונן מראש." },
+            { emoji: "🍋", text: "הוסף פלח לימון או נענע לכוס המים שלך." },
+            { emoji: "🖋️", text: "נסה לחתום את החתימה שלך בצורה הכי מרשימה שאפשר." },
+            { emoji: "👀", text: "הסתכל על חפץ רחוק למשך 20 שניות כדי להרגיע את העיניים מהמסך." },
+            { emoji: "🎒", text: "רוקן מהתיק קבלות ישנות וניירות מיותרים." },
+            { emoji: "🌟", text: "תן לעצמך מחמאה על משהו שהצלחת בו לאחרונה." },
+            { emoji: "✈️", text: "בדוק תמונות של יעד חלומי שהיית רוצה לבקר בו." },
+            { emoji: "🧱", text: "בנה מגדל קטן מחפצים שיש על השולחן (עטים, ספרים, כוסות)." },
+            { emoji: "🥗", text: "תכנן ארוחה טעימה ובריאה להיום." },
+            { emoji: "🔄", text: "סובב את הכתפיים 10 פעמים קדימה ו-10 פעמים אחורה." },
+            { emoji: "📓", text: "פתח פתק בטלפון ורשום 5 שירים שאתה הכי אוהב כרגע." },
+            { emoji: "🐶", text: "לטף חיית מחמד (או צפה בסרטון של גורים אם אין לך)." },
+            { emoji: "🧹", text: "נגב את מסך הטלפון והמחשב במטלית נקייה." },
+            { emoji: "🎲", text: "הטל מטבע כדי להחליט החלטה קטנה שהתלבטת לגביה." },
+            { emoji: "🌅", text: "בדוק מתי השקיעה היום ונסה לצפות בה." },
+            { emoji: "🎤", text: "שיר פזמון של שיר אהוב כאילו אתה בהופעה חיה." },
+            { emoji: "🍫", text: "קח קוביית שוקולד ותאכל אותה לאט תוך התמקדות בטעם." },
+            { emoji: "👟", text: "קשור מחדש את שרוכי הנעליים או סדר את מדף הנעליים." },
+            { emoji: "🧠", text: "נסה לספור אחורה מ-100 בקפיצות של 7 (100, 93, 86...)." },
+            { emoji: "💬", text: "הגב תגובה חיובית ומפרגנת לפוסט של חבר." },
+            { emoji: "🕯️", text: "הדלק נר ריחני או קטורת כדי לשנות אווירה בחדר." },
+            { emoji: "📐", text: "יישר את כל החפצים על השולחן בזוויות של 90 מעלות." },
+            { emoji: "🚀", text: "קרא על תגלית מדעית חדשה מהחודש האחרון." },
+            { emoji: "🧸", text: "היזכר בזיכרון ילדות מצחיק וספר אותו למישהו." },
+            { emoji: "🥤", text: "שטוף כוס או צלחת שנשארו בכיור." },
+            { emoji: "🎨", text: "בחר 3 צבעים שמשתלבים יפה ביחד." },
+            { emoji: "🚶", text: "עשה סיבוב הליכה מהיר בבית למשך 2 דקות." },
+            { emoji: "🔑", text: "וודא שאתה יודע איפה המפתחות והארנק שלך." },
+            { emoji: "🌤️", text: "בדוק את תחזית מזג האוויר לסוף השבוע." },
+            { emoji: "🧘‍♂️", text: "שב זקוף עם גב ישר וכתפיים משוחררות למשך 2 דקות." },
+            { emoji: "🎁", text: "רשום רעיון למתנה מקורית ליום ההולדת הקרוב של חבר." },
+            { emoji: "🔍", text: "חפש מילה מעניינת בעברית שלא ידעת את פירושה." },
+            { emoji: "🎧", text: "גלה ז'אנר מוזיקלי שמעולם לא הקשבת לו (למשל ג'אז יפני)." },
+            { emoji: "🧻", text: "זרוק לפח כל נייר או עטיפה שנמצאים בטווח יד." },
+            { emoji: "💪", text: "החזק פלאנק (בטן סטטית) למשך 20-30 שניות." },
+            { emoji: "🌌", text: "הורד אפליקציית כוכבים ובדוק אילו כוכבי לכת מעליך." },
+            { emoji: "🍳", text: "חפש מתכון חדש שלוקח פחות מ-10 דקות להכין." },
+            { emoji: "🔋", text: "בדוק את אחוזי הסוללה בטלפון וחבר לטעינה אם צריך." },
+            { emoji: "🎭", text: "נסה לחכות מבטא של שפה זרה במשפט אחד." },
+            { emoji: "📋", text: "כתוב רשימת קניות קצרה של 3 דברים שחסרים בבית." },
+            { emoji: "🌳", text: "צא למרפסת או לחצר והקשב לקולות הטבע והציפורים." },
+            { emoji: "💡", text: "כבה אורות בחדרים שאין בהם אף אחד כרגע." },
+            { emoji: "🤝", text: "הצע עזרה קטנה למישהו שנמצא איתך בבית או בעבודה." },
+            { emoji: "🎯", text: "נסה לקלוע כדור נייר לפח ממרחק של 2 מטר." },
+            { emoji: "📚", text: "סדר 5 ספרים על המדף לפי גובה או צבע." },
+            { emoji: "🧊", text: "הכן קרח במקפיא אם התבנית ריקה." },
+            { emoji: "🎶", text: "צור פלייליסט חדש של 5 שירים לאנרגיה גבוהה." },
+            { emoji: "🦶", text: "חלוץ נעליים ותן לכפות הרגליים להתאוורר." },
+            { emoji: "📸", text: "שלח תמונה נוסטלגית בקבוצת הוואטסאפ של החברים." },
+            { emoji: "🧩", text: "נסה לפתור חידה אחת מתוך הכרטיס הסגול באתר!" },
+            { emoji: "🌿", text: "הרח תבלין במטבח (קינמון, פלפל, אורגנו) – זה מעורר את החושים." },
+            { emoji: "✏️", text: "חדד עפרונות או בדוק אילו עטים עדיין כותבים." },
+            { emoji: "⏱️", text: "עשה תחרות עם עצמך: כמה פריטים תספיק לסדר ב-60 שניות?" },
+            { emoji: "🎈", text: "חשוב על 3 דברים שהיית רוצה ללמוד השנה." },
+            { emoji: "🧃", text: "שתה כוס מים נוספת (כן, הגוף תמיד צריך עוד!)." },
+            { emoji: "🖥️", text: "סגור כרטיסיות פתוחות בדפדפן שכבר סיימת איתן." },
+            { emoji: "🧘‍♀️", text: "מתח את הצוואר בעדינות ימינה ושמאלה." },
+            { emoji: "🎲", text: "שחק משחק קצר של 'אבן נייר ומספריים' מול מישהו לידך." },
+            { emoji: "🌟", text: "כתוב משפט מוטיבציה שיעזור לך מחר בבוקר." },
+            { emoji: "🧺", text: "בדוק אם מכונת הכביסה סיימה לעבוד." },
+            { emoji: "🗺️", text: "תכנן מסלול טיול קצר לשבת הקרובה." },
+            { emoji: "🎧", text: "האזן לפודקאסט קצר בנושא שמסקרן אותך." },
+            { emoji: "🧼", text: "שטוף ידיים היטב עם סבון ריחני." },
+            { emoji: "📖", text: "קרא ציטוט מעורר השראה מהכרטיס הכחול כאן באתר." },
+            { emoji: "🎉", text: "תן לעצמך כיף עצמי – עברת עוד רגע בהצלחה!" },
+            { emoji: "🌙", text: "תכנן מתי תלך לישון הלילה כדי לישון 7-8 שעות טובות." }
+        ];
+
+        // --- 3. מאגר "מה עדיף?" ---
+        const dilemmas = [
+            { a: "לדעת לדבר בכל השפות בעולם", b: "לדעת לתקשר עם כל בעלי החיים" },
+            { a: "לחיות בלי אינטרנט לשנה שלמה", b: "לחיות בלי מזגן לשנה שלמה" },
+            { a: "להיות מסוגל לעוף", b: "להיות מסוגל להפוך לבלתי נראה" },
+            { a: "לאכול רק פיצה כל החיים", b: "לאכול רק המבורגר כל החיים" },
+            { a: "לנסוע בזמן לעבר", b: "לנסוע בזמן לעתיד" },
+            { a: "שיהיה לך כפתור 'השהיה' לחיים", b: "שיהיה לך כפתור 'הרצה אחורה' ב-10 שניות" },
+            { a: "לגור בבית ענק באמצע היער", b: "לגור בפנטהאוז במרכז העיר הגדולה" },
+            { a: "לדעת תמיד מתי משקרים לך", b: "להצליח לשכנע כל אחד בכל דבר" },
+            { a: "שיהיה קיץ כל השנה", b: "שיהיה חורף כל השנה" },
+            { a: "לוותר על מוזיקה לנצח", b: "לוותר על סרטים וסדרות לנצח" },
+            { a: "לזכות במיליון שקל עכשיו", b: "לקבל 10,000 שקל כל חודש לכל החיים" },
+            { a: "לא להצטרך לישון אף פעם", b: "לא להצטרך לאכול אף פעם" },
+            { a: "לגלות את מעמקי האוקיינוס", b: "לטוס לחלל החיצון" },
+            { a: "לנגן על כל כלי נגינה במומחיות", b: "לעסוק בכל ענף ספורט ברמה אולימפית" },
+            { a: "לקרוא מחשבות של אנשים", b: "לראות 5 דקות קדימה אל העתיד" },
+            { a: "להיות מפורסם ועשיר", b: "להיות עשיר ואנונימי לגמרי" },
+            { a: "לטייל בחינם בכל העולם כל החיים", b: "לאכול בחינם בכל מסעדה בעולם כל החיים" },
+            { a: "שכל שיר שתשמע ייתקע לך בראש שבוע", b: "שתמיד תתעטש כשאתה מתרגש" },
+            { a: "לגור על ספינת תענוגות", b: "לגור בטירה עתיקה" },
+            { a: "לזכור כל פרט שקראת אי פעם", b: "לשכוח כל רגע מביך שעברת" },
+            { a: "לשלוט באש", b: "לשלוט במים" },
+            { a: "שיהיה לך שף פרטי", b: "שיהיה לך נהג פרטי" },
+            { a: "לעבוד 4 ימים בשבוע 10 שעות", b: "לעבוד 5 ימים בשבוע 8 שעות" },
+            { a: "להיות הכי חכם בחדר", b: "להיות הכי מצחיק בחדר" },
+            { a: "למצוא אהבת אמת", b: "למצוא תרופה למחלה חשוכת מרפא" },
+            { a: "שתמיד תהיה לך סוללה 100% בטלפון", b: "שתמיד יהיה לך אינטרנט מהיר בכל מקום" },
+            { a: "לדבר רק בחרוזים", b: "לשיר במקום לדבר" },
+            { a: "להילחם בברווז בגודל של סוס", b: "להילחם ב-100 סוסים בגודל של ברווז" },
+            { a: "לחיות בעולם של הארי פוטר", b: "לחיות בעולם של מלחמת הכוכבים" },
+            { a: "להיכנס לספר השיאים של גינס", b: "להופיע על שער של מגזין עולמי" },
+            { a: "שכל הבגדים שלך יהיו בצבע אחד", b: "לנעול רק כפכפים כל השנה" },
+            { a: "לצלול עם כרישים", b: "לצנוח ממטוס" },
+            { a: "לדעת את התשובה לכל שאלה מדעית", b: "לדעת את סודות ההיסטוריה העתיקה" },
+            { a: "שיהיה לך כוח על של טלפורטציה", b: "שיהיה לך כוח על של טלקינזיס" },
+            { a: "לפתוח מסעדה מצליחה", b: "לכתוב ספר רב-מכר" }
+        ];
+
+        // --- 4. מאגר "משפט השראה" ---
+        const quotes = [
+            { text: "הדרך הטובה ביותר לחזות את העתיד היא ליצור אותו.", author: "פיטר דרוקר" },
+            { text: "גם מסע של אלף מייל מתחיל בצעד אחד קטן.", author: "לאו דזה" },
+            { text: "ההיגיון ייקח אותך מנקודה א' לנקודה ב', הדמיון ייקח אותך לכל מקום.", author: "אלברט איינשטיין" },
+            { text: "אל תספור את הימים, תגרום לימים להיספר.", author: "מוחמד עלי" },
+            { text: "הצלחה היא לעבור מכישלון לכישלון בלי לאבד את ההתלהבות.", author: "וינסטון צ'רצ'יל" },
+            { text: "אתה מחמיץ 100% מהזריקות שאתה לא זורק.", author: "וויין גרצקי" },
+            { text: "הזמן הטוב ביותר לשתול עץ היה לפני 20 שנה. הזמן השני הכי טוב הוא עכשיו.", author: "פתגם סיני" },
+            { text: "תהיה השינוי שאתה רוצה לראות בעולם.", author: "מהטמה גנדי" },
+            { text: "הדבר היחיד שעומד בינך לבין המטרה שלך הוא הסיפור שאתה מספר לעצמך.", author: "ג'ורדן בלפורט" },
+            { text: "האושר אינו דבר מוכן מראש. הוא מגיע מהמעשים שלך.", author: "הדלאי לאמה" },
+            { text: "אל תפחד לוותר על הטוב כדי להשיג את המצוין.", author: "ג'ון ד. רוקפלר" },
+            { text: "כל חלום יכול להתגשם אם רק יהיה לנו האומץ לרדוף אחריו.", author: "וולט דיסני" },
+            { text: "הכישלון הוא פשוט הזדמנות להתחיל מחדש, הפעם בצורה חכמה יותר.", author: "הנרי פורד" },
+            { text: "מי שיש לו 'למה' שלמענו יחיה, יוכל לשאת כמעט כל 'איך'.", author: "פרידריך ניטשה" },
+            { text: "הסוד להתקדם הוא פשוט להתחיל.", author: "מארק טוויין" },
+            { text: "אדם שמעולם לא טעה, מעולם לא ניסה שום דבר חדש.", author: "אלברט איינשטיין" },
+            { text: "הזמן שלך מוגבל, אל תבזבז אותו בלחיות חיים של מישהו אחר.", author: "סטיב ג'ובס" },
+            { text: "קשיים מכינים אנשים רגילים לייעוד יוצא דופן.", author: "ק.ס. לואיס" },
+            { text: "אל תחכה להזדמנות. צור אותה.", author: "ג'ורג' ברנרד שו" },
+            { text: "הדבר הכי חשוב הוא ליהנות מהחיים שלך – להיות מאושר – זה כל מה שחשוב.", author: "אודרי הפבורן" },
+            { text: "אומץ הוא לא היעדר פחד, אלא הניצחון עליו.", author: "נלסון מנדלה" },
+            { text: "תאמין שאתה יכול וכבר עשית חצי מהדרך.", author: "תיאודור רוזוולט" },
+            { text: "החיים הם 10% מה שקורה לך ו-90% איך שאתה מגיב לזה.", author: "צ'ארלס סווינדול" },
+            { text: "כדי להצליח, הרצון שלך להצליח צריך להיות גדול יותר מהפחד שלך להיכשל.", author: "ביל קוסבי" },
+            { text: "אל תיתן לאתמול לתפוס יותר מדי מקום בהיום.", author: "וויל רוג'רס" },
+            { text: "יצירתיות היא אינטליגנציה שעושה כיף.", author: "אלברט איינשטיין" },
+            { text: "הדרך היחידה לעשות עבודה נהדרת היא לאהוב את מה שאתה עושה.", author: "סטיב ג'ובס" },
+            { text: "התחל איפה שאתה נמצא. השתמש במה שיש לך. עשה מה שאתה יכול.", author: "ארתור אש" },
+            { text: "הגבולות היחידים שלנו הם אלו שאנחנו מציבים לעצמנו.", author: "נפוליאון היל" },
+            { text: "כל מומחה היה פעם מתחיל.", author: "הלן הייז" },
+            { text: "שנה את המחשבות שלך ותשנה את העולם שלך.", author: "נורמן וינסנט פיל" },
+            { text: "אם אתה עובר דרך גיהנום, תמשיך ללכת.", author: "וינסטון צ'רצ'יל" },
+            { text: "פעולה היא המפתח הבסיסי לכל הצלחה.", author: "פבלו פיקאסו" },
+            { text: "תהיה עצמך; כל השאר כבר תפוסים.", author: "אוסקר ויילד" },
+            { text: "ככל שתעבוד קשה יותר למען משהו, כך תרגיש נהדר יותר כשתשיג אותו.", author: "אנונימי" }
+        ];
+
+        // --- 5. מאגר "חידה מהירה" ---
+        const riddles = [
+            { q: "מה שייך לך, אבל אנשים אחרים משתמשים בו הרבה יותר ממך?", a: "השם שלך!" },
+            { q: "מה עולה למעלה ולמטה אבל אף פעם לא זז?", a: "מדרגות!" },
+            { q: "מה נרטב ככל שהוא מייבש יותר?", a: "מגבת!" },
+            { q: "איזה חודש בשנה כולל 28 ימים?", a: "כל החודשים! (בכל חודש יש לפחות 28 ימים)" },
+            { q: "מה מלא בחורים אבל עדיין מחזיק מים?", a: "ספוג!" },
+            { q: "מה תמיד בא לפניך אבל אי אפשר לראות אותו?", a: "העתיד!" },
+            { q: "מה נשבר ברגע שאומרים את השם שלו?", a: "שקט!" },
+            { q: "יש לי ערים בלי בתים, הרים בלי עצים ומים בלי דגים. מי אני?", a: "מפה!" },
+            { q: "מה אפשר לתפוס אבל אי אפשר לזרוק?", a: "הצטננות!" },
+            { q: "איזו מילה כתובה תמיד עם שגיאת כתיב במילון?", a: "המילה 'שגיאה'!" },
+            { q: "מה הולך מסביב לחצר בלי לזוז?", a: "גדר!" },
+            { q: "יש לי מפתחות בלי מנעולים, מקום בלי חדרים, ואתה יכול להיכנס אבל לא לצאת. מי אני?", a: "מקלדת!" },
+            { q: "מה נהיה גדול יותר ככל שלוקחים ממנו יותר?", a: "בור!" },
+            { q: "לאבא של דני יש 3 בנים: צפון, דרום ו... איך קוראים לשלישי?", a: "דני!" },
+            { q: "מה רץ אבל אף פעם לא הולך, ויש לו מיטה אבל אף פעם לא ישן?", a: "נהר!" },
+            { q: "כמה חיות מכל מין הכניס משה לתיבה?", a: "אפס! זה היה נח בתיבה, לא משה." },
+            { q: "מה קל כמו נוצה, אבל אפילו האדם החזק בעולם לא יכול להחזיק אותו 5 דקות?", a: "הנשימה שלו!" },
+            { q: "מה יש פעם אחת בדקה, פעמיים ברגע, ואף פעם לא באלף שנה?", a: "האות ק'!" },
+            { q: "מהי ההמצאה העתיקה שמאפשרת לראות דרך קירות?", a: "חלון!" },
+            { q: "איזה כובע אי אפשר לחבוש על הראש?", a: "כובעון / כובע של פטרייה / כובע ים!" },
+            { q: "יש לי צוואר בלי ראש, ושתי ידיים בלי אצבעות. מי אני?", a: "חולצה!" },
+            { q: "מה שוקל יותר: קילו נוצות או קילו ברזל?", a: "הם שוקלים אותו דבר – קילו!" },
+            { q: "מה עולה למעלה אבל לעולם לא יורד למטה?", a: "הגיל שלך!" },
+            { q: "איזה אוכל אפשר לאכול רק בארוחת בוקר?", a: "ארוחת צהריים וארוחת ערב אי אפשר!" },
+            { q: "למה אי אפשר לקבור אדם שחי בתל אביב בירושלים?", a: "כי הוא עדיין חי!" },
+            { q: "יש לי 4 רגליים בבוקר, 2 בצהריים ו-3 בערב. מי אני?", a: "האדם (זוחל כתינוק, הולך על שתיים, ונעזר במקל בזקנה)!" },
+            { q: "מה נמצא בדיוק באמצע של פריז?", a: "האות י'!" },
+            { q: "איזה שולחן אין לו רגליים?", a: "לוח הכפל / טבלה (Table)!" },
+            { q: "מה אפשר לשבור בלי לגעת בו בכלל?", a: "הבטחה!" },
+            { q: "יש לי שיניים רבות אבל אני לא יכול לנשוך. מי אני?", a: "מסרק!" }
+        ];
+
+        // --- 6. מאגר "שאלה לשיחה" ---
+        const icebreakers = [
+            "אם היית יכול לאכול ארוחת ערב עם כל דמות מההיסטוריה, במי היית בוחר?",
+            "מה הדבר הכי ספונטני שעשית בחיים?",
+            "אם היית פותח עסק מחר בבוקר בלי מגבלת תקציב, מה הוא היה?",
+            "איזה סרט ראית יותר מ-5 פעמים ועדיין לא נמאס לך ממנו?",
+            "מה הכישרון הכי מוזר או חסר תועלת שיש לך?",
+            "אם היית תקוע על אי בודד עם 3 חפצים בלבד, מה היית לוקח?",
+            "מה הריח שהכי מזכיר לך את הילדות?",
+            "איזו עצה היית נותן לעצמך של גיל 15?",
+            "אם החיים שלך היו סדרה בנטפליקס, איך היו קוראים לה?",
+            "מה המאכל הכי מוזר שניסית והפתעת את עצמך שאהבת?",
+            "איזה מקום בעולם ביקרת בו והרגשת שאתה יכול לגור שם?",
+            "מה הדבר הראשון שהיית קונה אם היית זוכה ב-50 מיליון שקל?",
+            "אם היית יכול ללמוד מיומנות חדשה תוך שנייה אחת (כמו במטריקס), מה היית בוחר?",
+            "מה הדבר הכי מצחיק שקרה לך בעבודה או בבית הספר?",
+            "האם אתה טיפוס של בוקר או ציפור לילה?",
+            "איזה שיר תמיד גורם לך לרקוד או לשיר בקול?",
+            "מה הספר או הסרט שהכי שינה את דרך המחשבה שלך?",
+            "אם היית יכול להמציא חג לאומי חדש, מה היינו חוגגים בו?",
+            "מה ההישג הקטן שאתה הכי גאה בו השנה?",
+            "איזו המצאה טכנולוגית אתה הכי מחכה שתהיה אמיתית?",
+            "מה המשחק קופסה או משחק המחשב האהוב עליך בכל הזמנים?",
+            "אם היית חיה, איזו חיה היית ולמה?",
+            "מה הדבר שהכי מרגיע אותך אחרי יום עמוס?",
+            "איזה מקצוע חלמת לעסוק בו כשהיית ילד?",
+            "מה המחמאה הכי טובה שקיבלת אי פעם?",
+            "אם היית יכול לשנות חוק אחד בעולם, מה הוא היה?",
+            "מה הדבר שרוב האנשים אוהבים ואתה ממש לא מבין למה?",
+            "איזה תוספת על פיצה היא קו אדום מבחינתך?",
+            "מה הזיכרון הכי טוב שלך מחופשה משפחתית?",
+            "אם היית צריך להעביר הרצאת TED של 10 דקות בלי הכנה, על מה היית מדבר?",
+            "מה השגרה היומית שאתה לא מוותר עליה?",
+            "איזו דמות מסרט או ספר הכי דומה לאופי שלך?",
+            "מה הדבר הכי יפה שראית בטבע?",
+            "אם היית מקבל כרטיס טיסה פתוח לכל יעד – לאן היית טס מחר?",
+            "מה גורם לך להרגיש אסיר תודה ברגע זה?"
+        ];
+
+        // מעקב אחרי האינדקס האחרון כדי למנוע כפילות רצופה
+        const lastIndex = {
+            fact: -1,
+            activity: -1,
+            dilemma: -1,
+            quote: -1,
+            riddle: -1,
+            icebreaker: -1
+        };
+
+        // פונקציית עזר לבחירת אינדקס אקראי שלא זהה לקודם
+        function getRandomIndex(length, key) {
+            if (length <= 1) return 0;
+            let idx;
+            do {
+                idx = Math.floor(Math.random() * length);
+            } while (idx === lastIndex[key]);
+            lastIndex[key] = idx;
+            return idx;
+        }
+
+        // הפעלת אנימציית הופעה מחודשת על אלמנט
+        function triggerPop(element) {
+            element.classList.remove('animate-pop');
+            void element.offsetWidth;
+            element.classList.add('animate-pop');
+        }
+
+        // 1. מחולל עובדות
+        function generateFact() {
+            const idx = getRandomIndex(facts.length, 'fact');
+            const el = document.getElementById('fact-text');
+            el.textContent = facts[idx];
+            triggerPop(el);
+        }
+
+        // 2. מחולל פעילויות
+        function generateActivity() {
+            const idx = getRandomIndex(activities.length, 'activity');
+            const item = activities[idx];
+            const emojiEl = document.getElementById('activity-emoji');
+            const textEl = document.getElementById('activity-text');
+            emojiEl.textContent = item.emoji;
+            textEl.textContent = item.text;
+            triggerPop(emojiEl);
+            triggerPop(textEl);
+        }
+
+        // 3. מחולל דילמות - בחירה בלחיצה ומעבר אוטומטי לדילמה הבאה
+        const DILEMMA_DELAY = 1100;
+        let dilemmaLocked = false;
+        let dilemmaTimer;
+
+        function generateDilemma() {
+            clearTimeout(dilemmaTimer);
+            dilemmaLocked = false;
+            const idx = getRandomIndex(dilemmas.length, 'dilemma');
+            const item = dilemmas[idx];
+            const elA = document.getElementById('dilemma-a');
+            const elB = document.getElementById('dilemma-b');
+            [elA, elB].forEach(el => {
+                el.classList.remove('chosen', 'faded');
+                el.disabled = false;
+            });
+            elA.textContent = item.a;
+            elB.textContent = item.b;
+            triggerPop(elA);
+            triggerPop(elB);
+        }
+
+        function chooseDilemma(side) {
+            if (dilemmaLocked) return;
+            dilemmaLocked = true;
+            const chosen = document.getElementById('dilemma-' + side);
+            const other = document.getElementById('dilemma-' + (side === 'a' ? 'b' : 'a'));
+            chosen.classList.add('chosen');
+            other.classList.add('faded');
+            chosen.disabled = true;
+            other.disabled = true;
+            dilemmaTimer = setTimeout(generateDilemma, DILEMMA_DELAY);
+        }
+
+        // 4. מחולל ציטוטים
+        function generateQuote() {
+            const idx = getRandomIndex(quotes.length, 'quote');
+            const item = quotes[idx];
+            const textEl = document.getElementById('quote-text');
+            const authorEl = document.getElementById('quote-author');
+            textEl.textContent = `"${item.text}"`;
+            authorEl.textContent = `— ${item.author}`;
+            triggerPop(textEl);
+            triggerPop(authorEl);
+        }
+
+        // 5. מחולל חידות
+        function generateRiddle() {
+            const idx = getRandomIndex(riddles.length, 'riddle');
+            const item = riddles[idx];
+            const qEl = document.getElementById('riddle-question');
+            const aEl = document.getElementById('riddle-answer');
+            const boxEl = document.getElementById('riddle-answer-box');
+            qEl.textContent = item.q;
+            aEl.textContent = item.a;
+            boxEl.classList.add('hidden');
+            triggerPop(qEl);
+        }
+
+        function toggleRiddleAnswer() {
+            const boxEl = document.getElementById('riddle-answer-box');
+            boxEl.classList.toggle('hidden');
+            if (!boxEl.classList.contains('hidden')) {
+                triggerPop(boxEl);
+            }
+        }
+
+        // 6. מחולל שאלות לשיחה
+        function generateIcebreaker() {
+            const idx = getRandomIndex(icebreakers.length, 'icebreaker');
+            const el = document.getElementById('icebreaker-text');
+            el.textContent = icebreakers[idx];
+            triggerPop(el);
+        }
+
+        // רענון כל הכרטיסים יחד
+        function randomizeAll() {
+            generateFact();
+            generateActivity();
+            generateDilemma();
+            generateQuote();
+            generateRiddle();
+            generateIcebreaker();
+        }
+
+        // העתקה ללוח + התראה
+        function copyToClipboard(str) {
+            const textarea = document.createElement('textarea');
+            textarea.value = str;
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                showToast('הועתק ללוח בהצלחה!');
+            } catch (e) {
+                showToast('לא ניתן היה להעתיק');
+            }
+            document.body.removeChild(textarea);
+        }
+
+        function copyText(elementId) {
+            const text = document.getElementById(elementId).textContent;
+            copyToClipboard(text);
+        }
+
+        function copyDilemma() {
+            const a = document.getElementById('dilemma-a').textContent;
+            const b = document.getElementById('dilemma-b').textContent;
+            copyToClipboard(`מה עדיף? ${a} או ${b}?`);
+        }
+
+        function copyQuote() {
+            const q = document.getElementById('quote-text').textContent;
+            const a = document.getElementById('quote-author').textContent;
+            copyToClipboard(`${q} ${a}`);
+        }
+
+        let toastTimer;
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').textContent = msg;
+            toast.classList.remove('opacity-0', 'translate-y-4');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-4');
+            }, 2200);
+        }
+
+        // אתחול בטעינת העמוד
+        function initApp() {
+            randomizeAll();
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initApp);
+        } else {
+            initApp();
+        }
+    </script>
+</body>
+</html>
