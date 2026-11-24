@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>המרכז הרנדומלי - הפתעות בקליק</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Rubik', sans-serif;
+            background-color: #f8fafc;
+        }
+        @keyframes popIn {
+            0% { transform: scale(0.95); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .animate-pop {
+            animation: popIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .card-hover {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.08);
+        }
+        .dilemma-option {
+            transition: all 0.2s ease;
+        }
+        .dilemma-option:not(:disabled):hover {
+            border-color: #f43f5e;
+            background-color: #fff1f2;
+            transform: translateY(-2px);
+        }
+        .dilemma-option:not(:disabled):active {
+            transform: scale(0.97);
+        }
+        .dilemma-option.chosen {
+            background-color: #f43f5e;
+            border-color: #f43f5e;
+            color: #ffffff;
+            transform: scale(1.03);
+            box-shadow: 0 8px 20px -6px rgba(244, 63, 94, 0.5);
+        }
+        .dilemma-option.faded {
+            opacity: 0.35;
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased min-h-screen flex flex-col">
+
+    <!-- התראה צפה להעתקה -->
+    <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-xl font-medium text-sm flex items-center gap-2 opacity-0 pointer-events-none transition-all duration-300 translate-y-4">
+        <span>📋</span>
+        <span id="toast-msg">הטקסט הועתק ללוח!</span>
+    </div>
+
+    <!-- כותרת עליונה -->
+    <header class="bg-gradient-to-l from-indigo-600 via-purple-600 to-pink-600 text-white py-10 px-4 shadow-lg">
+        <div class="max-w-6xl mx-auto text-center">
+            <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight mb-3">
+                🎲 המרכז הרנדומלי המורחב
+            </h1>
+            <p class="text-indigo-100 text-base sm:text-lg max-w-2xl mx-auto mb-7">
+                עובדות, משימות, דילמות, חידות וציטוטים – לחצו על כל כרטיס או רעננו הכל יחד!
+            </p>
+            <button onclick="randomizeAll()" class="bg-white text-indigo-700 hover:bg-indigo-50 active:scale-95 transition-all font-bold py-3.5 px-8 rounded-2xl shadow-xl inline-flex items-center gap-2.5 text-base sm:text-lg cursor-pointer">
+                <span>⚡</span>
+                <span>רענן את כל הכרטיסים יחד!</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- תוכן מרכזי - רשת 6 כרטיסים -->
+    <main class="flex-grow max-w-6xl w-full mx-auto px-4 py-8 sm:py-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
+
+            <!-- 1. הידעת? -->
+            <section class="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 card-hover flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-10 h-10 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-xl">💡</span>
+                            <h2 class="text-lg font-bold text-slate-800 leading-tight">הידעת?</h2>
+                        </div>
+                        <button onclick="copyText('fact-text')" title="העתק עובדה" class="p-2 text-slate-400 hover:text-amber-600 hover:bg-amber-50 rounded-xl transition-colors cursor-pointer">
+                            📋
+                        </button>
+                    </div>
+                    <div class="bg-amber-50/70 border border-amber-100 rounded-2xl p-5 min-h-[155px] flex items-center justify-center text-center">
+                        <p id="fact-text" class="text-slate-700 font-medium text-base leading-relaxed"></p>
+                    </div>
+                </div>
+                <button onclick="generateFact()" class="mt-5 w-full bg-amber-500 hover:bg-amber-600 active:scale-95 text-white font-semibold py-3 px-4 rounded-xl transition-all shadow-sm cursor-pointer">
+                    עובדה מפתיעה אחרת 🔄
+                </button>
+            </section>
+
+            <!-- 2. מה עושים עכשיו? -->
+            <section class="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 card-hover flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-10 h-10 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl">🚀</span>
+                            <h2 class="text-lg font-bold text-slate-800 leading-tight">מה עושים עכשיו?</h2>
+                        </div>
+                        <button onclick="copyText('activity-text')" title="העתק משימה" class="p-2 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-xl transition-colors cursor-pointer">
+                            📋
+                        </button>
+                    </div>
+                    <div class="bg-emerald-50/70 border border-emerald-100 rounded-2xl p-5 min-h-[155px] flex flex-col items-center justify-center text-center gap-2.5">
+                        <span id="activity-emoji" class="text-4xl">🎯</span>
+                        <p id="activity-text" class="text-slate-700 font-medium text-base leading-relaxed"></p>
+                    </div>
+                </div>
+                <button onclick="generateActivity()" class="mt-5 w-full bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-semibold py-3 px-4 rounded-xl transition-all shadow-sm cursor-pointer">
+                    תן לי רעיון חדש ✨
+                </button>
+            </section>
+
+            <!-- 3. מה עדיף? (אפשרויות לחיצות) -->
+            <section class="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 card-hover flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-10 h-10 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center text-xl">⚖️</span>
+                            <h2 class="text-lg font-bold text-slate-800 leading-tight">מה עדיף?</h2>
+                        </div>
+                        <button onclick="copyDilemma()" title="העתק דילמה" class="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors cursor-pointer">
+                            📋
+                        </button>
+                    </div>
+                    <div class="bg-rose-50/70 border border-rose-100 rounded-2xl p-4 min-h-[155px] flex flex-col justify-center gap-2.5">
+                        <button id="dilemma-a" onclick="chooseDilemma('a')" class="dilemma-option bg-white border-2 border-rose-200 rounded-xl p-3 text-center text-sm font-semibold text-slate-700 shadow-sm cursor-pointer"></button>
+                        <div class="text-center text-xs font-extrabold text-rose-500">או</div>
+                        <button id="dilemma-b" onclick="chooseDilemma('b')" class="dilemma-option bg-white border-2 border-rose-200 rounded-xl p-3 text-center text-sm font-semibold text-slate-700 shadow-sm cursor-pointer"></button>
+                    </div>
+                </div>
+                <button onclick="generateDilemma()" class="mt-5 w-full bg-rose-500 hover:bg-rose-600 active:scale-95 text-white font-semibold py-3 px-4 rounded-xl transition-all shadow-sm cursor-pointer">
+                    דילמה אחרת 🤔
+                </button>
+            </section>
+
+            <!-- 4. משפט השראה -->
+            <section class="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 card-hover flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-10 h-10 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center text-xl">💬</span>
+                            <h2 class="text-lg font-bold text-slate-800 leading-tight">משפט השראה</h2>
+                        </div>
+                        <button onclick="copyQuote()" title="העתק ציטוט" class="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-xl transition-colors cursor-pointer">
+                            📋
+                        </button>
+                    </div>
+                    <div class="bg-indigo-50/70 border border-indigo-100 rounded-2xl p-5 min-h-[155px] flex flex-col items-center justify-center text-center gap-2">
+                        <p id="quote-text" class="text-slate-700 font-medium text-base leading-relaxed italic"></p>
+                        <span id="quote-author" class="text-xs font-bold text-indigo-600 bg-indigo-100/80 px-3 py-1 rounded-full"></span>
+                    </div>
+                </div>
+                <button onclick="generateQuote()" class="mt-5 w-full bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-semibold py-3 px-4 rounded-xl transition-all shadow-sm cursor-pointer">
+                    ציטוט מעורר מחשבה ✨
+                </button>
+            </section>
+
+            <!-- 5. חידה מהירה -->
+            <section class="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 card-hover flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-10 h-10 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center text-xl">🧩</span>
+                            <h2 class="text-lg font-bold text-slate-800 leading-tight">חידה מהירה</h2>
+                        </div>
+                        <button onclick="toggleRiddleAnswer()" class="text-xs font-bold text-purple-600 bg-purple-50 hover:bg-purple-100 px-3 py-1.5 rounded-xl transition-colors cursor-pointer">
+                            גלה תשובה 👁️
+                        </button>
+                    </div>
+                    <div class="bg-purple-50/70 border border-purple-100 rounded-2xl p-5 min-h-[155px] flex flex-col items-center justify-center text-center gap-3">
+                        <p id="riddle-question" class="text-slate-700 font-medium text-base leading-relaxed"></p>
+                        <div id="riddle-answer-box" class="hidden bg-purple-600 text-white text-sm font-bold px-4 py-2 rounded-xl shadow-sm">
+                            <span id="riddle-answer"></span>
+                        </div>
+                    </div>
+                </div>
+                <button onclick="generateRiddle()" class="mt-5 w-full bg-purple-600 hover:bg-purple-700 active:scale-95 text-white font-semibold py-3 px-4 rounded-xl transition-all shadow-sm cursor-pointer">
+                    חידה חדשה 🧠
+                </button>
+            </section>
+
+            <!-- 6. שאלה לשיחה -->
+            <section class="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 card-hover flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-10 h-10 rounded-2xl bg-cyan-100 text-cyan-600 flex items-center justify-center text-xl">🗣️</span>
+                            <h2 class="text-lg font-bold text-slate-800 leading-tight">שאלה לשיחה</h2>
+                        </div>
+                        <button onclick="copyText('icebreaker-text')" title="העתק שאלה" class="p-2 text-slate-400 hover:text-cyan-600 hover:bg-cyan-50 rounded-xl transition-colors cursor-pointer">
+                            📋
+                        </button>
+                    </div>
+                    <div class="bg-cyan-50/70 border border-cyan-100 rounded-2xl p-5 min-h-[155px] flex items-center justify-center text-center">
+                        <p id="icebreaker-text" class="text-slate-700 font-medium text-base leading-relaxed"></p>
+                    </div>
+                </div>
+                <button onclick="generateIcebreaker()" class="mt-5 w-full bg-cyan-600 hover:bg-cyan-700 active:scale-95 text-white font-semibold py-3 px-4 rounded-xl transition-all shadow-sm cursor-pointer">
+                    שאלה מעניינת אחרת 💬
+                </button>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- כותרת תחתונה -->
+    <footer class="bg-white border-t border-slate-200 py-6 text-center text-slate-500 text-sm">
+        <p>המרכז הרנדומלי 🎲</p>
+    </footer>
+
+    <!-- לוגיקה ומאגרי נתונים -->
+    <script>
+        // --- 1. מאגר "הידעת?" ---
+        const facts = [
+            "דבש טבעי לעולם לא מתקלקל – נמצאו כדי דבש אכילים בקברים מצריים בני 3,000 שנה.",
+            "לתמנונים יש שלושה לבבות, תשעה מוחות ודם בצבע כחול.",
+            "יום אחד בכוכב הלכת נוגה ארוך יותר משנה שלמה בנוגה.",
+            "בננות הן מבחינה בוטנית פירות יער, בעוד שתות שדה אינו פרי יער.",
+            "לווייתן כחול הוא החיה הגדולה ביותר שחיה אי פעם – לשונו שוקלת כמו פיל שלם.",
+            "בכל דקה מכים כ-6,000 ברקים ברחבי כדור הארץ.",
+            "לפרות יש חברות טובות והן חוות מתח כשהן מופרדות מהן.",
+            "בממוצע, אדם מבלה כ-6 חודשים מחייו בהמתנה לרמזור ירוק.",
+            "העיניים של בת יענה גדולות יותר מהמוח שלה.",
+            "מגדל אייפל יכול לגבוה בכ-15 סנטימטרים בקיץ בגלל התפשטות המתכת בחום.",
+            "כרישים קיימים על כדור הארץ עוד לפני שהיו עצים.",
+            "לכל אדם יש טביעת לשון ייחודית, בדיוק כמו טביעת אצבע.",
+            "דולפינים נותנים שמות זה לזה ומשתמשים בשריקות ייחודיות כדי לקרוא לחבריהם.",
+            "הלב של שרימפס ממוקם בתוך הראש שלו.",
+            "לוטרות ים מחזיקות ידיים כשהן ישנות כדי לא להיסחף זו מזו בזרם.",
+            "ענן ממוצע שוקל כ-500 טון – בערך כמו 100 פילים.",
+            "באוסטרליה יש יותר קנגורו מאשר בני אדם.",
+            "צבע החלב של היפופוטם הוא ורוד בהיר.",
+            "בני אדם חולקים כ-60% מה-DNA שלהם עם בננות.",
+            "פלמינגו נולדים עם נוצות אפורות – התזונה שלהם משרימפס ואצות צובעת אותם בוורוד.",
+            "חלזונות יכולים לישון ברציפות עד שלוש שנים.",
+            "אסטרונאוטים בחלל גובהים בכ-5 סנטימטרים בגלל היעדר כוח כבידה.",
+            "כפית אחת של חומר מכוכב נייטרונים שוקלת כ-6 מיליארד טון.",
+            "לחתולים יש 32 שרירים בכל אוזן.",
+            "הדבש הוא המזון היחיד שחרקים מייצרים ובני אדם אוכלים.",
+            "קואלות ישנות עד 22 שעות ביממה.",
+            "שוקולד מריר שימש כמטבע עובר לסוחר בתרבות המאיה.",
+            "אין שני פתיתי שלג זהים לחלוטין בטבע.",
+            "סוסוני ים הם בעלי החיים היחידים שבהם הזכר הוא זה שנכנס להיריון ויולד.",
+            "המוח האנושי מייצר מספיק חשמל כדי להדליק נורת LED קטנה.",
+            "במאה ה-19 קטשופ נמכר כתרופה לבעיות עיכול.",
+            "הריח של גשם על אדמה יבשה נקרא 'פטריכור' (Petrichor).",
+            "לג'ירפות אין מיתרי קול והן מתקשרות בתדרים נמוכים מאוד.",
+            "פינגווינים מציעים נישואין על ידי הענקת חלוק נחל חלק ומושלם לבת הזוג.",
+            "בכל שניה נולדים כ-4 תינוקות ברחבי העולם.",
+            "האוקיינוסים מכילים כ-99% ממרחב המחיה על פני כדור הארץ.",
+            "לפרפרים יש קולטני טעם בכפות הרגליים.",
+            "בשווייץ אסור על פי חוק לגדל שרקן בודד – חייבים לפחות זוג כדי שלא יסבול מבדידות.",
+            "האגוז 'קשיו' גדל בקצה של פרי מיוחד שנראה כמו תפוח.",
+            "תנינים לא מסוגלים להוציא את הלשון החוצה.",
+            "הספר המודפס הראשון בהיסטוריה הודפס בסין מאות שנים לפני גוטנברג.",
+            "לפילים יש זיכרון יוצא דופן והם מסוגלים לזהות בני אדם שפגשו לפני עשרות שנים.",
+            "השמש מהווה 99.86% מכלל המסה של מערכת השמש כולה.",
+            "עטלפים הם היונקים היחידים שמסוגלים לעוף באופן פעיל.",
+            "בצפון קוריאה ובקובה אי אפשר לקנות קוקה קולה באופן רשמי.",
+            "הדגל של נפאל הוא הדגל הלאומי היחיד בעולם שאינו מלבני או ריבועי.",
+            "קנגורו לא מסוגל ללכת אחורה.",
+            "הלב האנושי פועם כ-100,000 פעמים ביום.",
+            "כוכב הלכת צדק גדול מספיק כדי להכיל בתוכו 1,300 כדורי ארץ.",
+            "בני אדם משילים כ-40,000 תאי עור בכל דקה.",
+            "הממציא של פרינגלס נקבר בתוך קופסת פרינגלס לבקשתו.",
+            "לזיקית יש לשון שארוכה פי שניים מאורך גופה.",
+            "בממוצע, עפרון רגיל יכול לצייר קו באורך של כ-56 קילומטרים.",
+            "הצבע הכתום נקרא על שם הפרי תפוז, ולא להפך.",
+            "דבורים מסוגלות לזהות פרצופים של בני אדם.",
+            "במדבר סהרה ירד שלג כמה פעמים בעשורים האחרונים.",
+            "אוניברסיטת אוקספורד עתיקה יותר מאימפריית האצטקים.",
+            "לינשופים אין גלגלי עיניים – יש להם צינורות עיניים, ולכן הם מסובבים את כל הראש.",
+            "הסמל '#' נקרא במקור 'אוקטות'ורפ' (Octothorpe).",
+            "הקול של ברווז אינו יוצר הד (בניגוד למיתוס, הוא כן יוצר, אבל חלש מאוד).",
+            "לצב ים יש יכולת לנווט בעזרת השדה המגנטי של כדור הארץ.",
+            "בממוצע, אדם צוחק כ-15 פעמים ביום.",
+            "המילה הארוכה ביותר באנגלית כוללת 189,819 אותיות (שם של חלבון).",
+            "באיסלנד אין יתושים בכלל.",
+            "לכלב יש חוש ריח שחד פי 10,000 עד 100,000 משל בני אדם.",
+            "הירח מתרחק מכדור הארץ בקצב של כ-3.8 סנטימטרים בשנה.",
+            "פנדות אדומות הן לא באמת קרובות משפחה של הפנדה הענקית.",
+            "עץ הבמבוק יכול לצמוח עד מטר שלם ביום אחד.",
+            "הדם של סרטן הפרסה הוא בצבע כחול ומשמש ברפואה לבדיקת סטריליות.",
+            "העיר איסטנבול היא העיר היחידה בעולם שיושבת על שתי יבשות (אירופה ואסיה).",
+            "לחתולים אין קולטנים לטעם מתוק.",
+            "משחק ה'טטריס' פותח בברית המועצות בשנת 1984.",
+            "בממוצע, בני אדם שוכחים כ-90% מהחלומות שלהם תוך 10 דקות מההתעוררות.",
+            "האנטארקטיקה נחשבת למדבר הגדול ביותר בעולם מבחינת משקעים.",
+            "לכרישים אין עצמות בכלל – השלד שלהם עשוי כולו מסחוס.",
+            "הסיכוי שברק יפגע בך גבוה יותר מהסיכוי לזכות בלוטו.",
+            "האף והאוזניים שלנו ממשיכים לגדול לאט לאורך כל החיים.",
+            "בקנדה יש יותר אגמים מאשר בכל שאר מדינות העולם יחד.",
+            "אכילת גזר לא באמת משפרת ראיית לילה – זו הייתה תעמולה בריטית במלחמת העולם השנייה.",
+            "לנמלים אין ריאות; הן נושמות דרך פתחים זעירים לאורך גופן.",
+            "הכוכב הבהיר ביותר בשמי הלילה (מלבד הירח) הוא סיריוס.",
+            "המציאו את המיקרוגל בטעות, כשחוקר שם לב שחפיסת שוקולד בכיסו נמסה ליד מכשיר מכ\"ם.",
+            "טביעות האצבע של קואלות כמעט זהות לאלו של בני אדם.",
+            "אדם ממוצע הולך במהלך חייו מרחק השווה להקפת כדור הארץ כ-5 פעמים.",
+            "ביפן יש יותר חיות מחמד מאשר ילדים מתחת לגיל 15.",
+            "המים החמים קופאים מהר יותר ממים קרים בתנאים מסוימים (אפקט מפמבה).",
+            "לסנאים יש חלק בשתילת אלפי עצים בכל שנה כי הם שוכחים איפה החביאו בלוטים.",
+            "הקולנוען וולט דיסני החזיק בשיא של 26 פרסי אוסקר.",
+            "בכדור הארץ יש יותר עצים מאשר כוכבים בגלקסיית שביל החלב.",
+            "הטמפרטורה הגבוהה ביותר שנמדדה בכדור הארץ הייתה 56.7 מעלות בעמק המוות.",
+            "דגים יכולים להשתעל, לפהק ואפילו להישרף בשמש.",
+            "המקלדת 'QWERTY' תוכננה במקור כדי להאט את ההקלדה במכונות כתיבה שלא ייתקעו.",
+            "לפני המצאת המחק, השתמשו בפירורי לחם כדי למחוק עופרת.",
+            "בעולם קיימים יותר מ-7,500 זנים שונים של תפוחים.",
+            "הלשון של זיקית יכולה להאיץ מ-0 ל-100 קמ\"ש בפחות ממאית השנייה.",
+            "בכל שנה נולדים כוכבים חדשים 
