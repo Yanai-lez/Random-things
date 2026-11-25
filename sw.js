@@ -1,8 +1,9 @@
-const CACHE = 'random-things-v2';
+const CACHE = 'random-things-v3';
 const ASSETS = [
   './',
   './index.html',
   './manifest.json',
+  './data.js',
   './icons/icon-192.png',
   './icons/icon-512.png'
 ];
@@ -29,6 +30,11 @@ self.addEventListener('fetch', (e) => {
         caches.open(CACHE).then((c) => c.put(e.request, copy)).catch(() => {});
         return res;
       })
-      .catch(() => caches.match(e.request).then((r) => r || caches.match('./index.html')))
+      .catch(() => caches.match(e.request).then((r) => {
+        if (r) return r;
+        // דף הבית משמש כגיבוי רק לניווט בין דפים, לא לקבצי סקריפט או עיצוב
+        if (e.request.mode === 'navigate') return caches.match('./index.html');
+        return Response.error();
+      }))
   );
 });
